@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "pull-stream": "^3.4.5"
+  },
+  "devDependencies": {
+    "eslint": "^3.5.0",
+    "eslint-config-minlint": "^1.0.1"
+  },
+  "name": "pull-stream-spec",
+  "version": "0.0.0",
+  "description": "Tests for pull streams",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nichoth/pull-stream-spec.git"
+  },
+  "keywords": [
+    "pull-stream",
+    "pull",
+    "stream",
+    "spec"
+  ],
+  "author": "nichoth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nichoth/pull-stream-spec/issues"
+  },
+  "homepage": "https://github.com/nichoth/pull-stream-spec#readme"
+}
