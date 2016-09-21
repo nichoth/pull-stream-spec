@@ -4,7 +4,10 @@
   },
   "devDependencies": {
     "eslint": "^3.5.0",
-    "eslint-config-minlint": "^1.0.1"
+    "eslint-config-minlint": "^1.0.2",
+    "pull-cat": "^1.1.11",
+    "pull-stream": "^3.4.5",
+    "tape": "^4.6.0"
   },
   "name": "pull-stream-spec",
   "version": "0.0.0",

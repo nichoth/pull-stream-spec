@@ -4,59 +4,76 @@
 // if end is falsy, the cb can call source again, which signals that
 // the sink is ready for a new event
 function SinkTest (test, sink) {
-    test('end event', function (t) {
-        sink(End(t))
+    test('Source emits end', function (t) {
+        sink()(End(t))
     })
 
-    test('error event', function (t) {
-        sink(ErrorSource(t))
+    test('Source emits error', function (t) {
+        sink()(Err(t))
     })
 
-    test('async source', function (t) {
-        sink(AsyncSource(t))
+    test('Async source', function (t) {
+        sink()(AsyncSource(t))
     })
 }
 
-function End (t) {
-    t.plan(0)
+function End (t, count) {
+    count = count || 0
+    var ended = false
     var i = 0
-    return function source (abort, emitNext) {
-        if (i > 0) t.fail('should not call source after ending')
-        i++
-        emitNext(true)
+    function source (abort, next) {
+        if (abort) t.fail('sink aborted before test finished')
+        if (ended) t.fail('should not call source after end')
+        if (i === count) {
+            ended = true
+            next(true)
+            return t.end()
+        }
+        next(null, i++)
     }
+    return source
 }
 
-function ErrorSource (t) {
-    t.plan(0)
+function Err (t, count) {
+    count = count || 0
+    var errd = false
     var i = 0
-    return function source (abort, emitNext) {
-        if (i > 0) t.fail('should not call source after error')
-        i++
-        emitNext(new Error('test'))
+    function source (abort, next) {
+        if (abort) t.fail('sink aborted before test finished')
+        if (errd) t.fail('should not call source after error')
+        if (i === count) {
+            errd = true
+            next(new Error('test'))
+            return t.end()
+        }
+        next(null, i++)
     }
+    return source
 }
 
-function AsyncSource (t) {
-    var called = [false, false, false]
+function AsyncSource (t, count) {
+    count = count || 0
+    var ended = false
+    var isResolving = false
     var i = 0
     return function asyncSource (abort, emitNext) {
-        if (abort || i > 2) return process.nextTick(function () {
-            t.end()
+        if (abort) t.fail('sink aborted before the test finished')
+        if (ended) t.fail('should not call source after end')
+        if (isResolving) t.fail('source was called out of turn')
+        if (i === count) return process.nextTick(function () {
+            ended = true
             emitNext(true)
+            t.end()
         })
-        if (called[i]) {
-            t.fail('should not ask for more data before the '+
-                'source is ready')
-        }
-        called[i] = true
-        i++
+        isResolving = true
         process.nextTick(function () {
-            emitNext(null, 'test')
+            isResolving = false
+            emitNext(null, i++)
         })
     }
 }
 
 module.exports = SinkTest
-module.exports.SourceThatEnds = End
+module.exports.End = End
+module.exports.Err = Err
 module.exports.AsyncSource = AsyncSource
