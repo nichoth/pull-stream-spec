@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "eslint **/*.js && node test/index.js",
-    "preversion": "npm test && git push && git push  --tags",
-    "postversion": "npm publish"
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "dependencies": {
     "pull-stream": "^3.4.5"
