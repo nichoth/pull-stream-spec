@@ -10,7 +10,7 @@
     "tape": "^4.6.0"
   },
   "name": "pull-stream-spec",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Tests for pull streams",
   "main": "index.js",
   "scripts": {
