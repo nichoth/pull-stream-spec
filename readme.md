@@ -1,22 +1,19 @@
 # pull stream spec
 What is a pull stream? 
 
-The source stream takes two params: abort and cb.
-It calls the cb with two params: `(end, value)`.
-The source stream has a contract: if it is passed a truthy `abort`
-param, it must call the callback with a truthy `end` param. It must
-not call the callback more than once (before it has been called again).
+The source stream
 
-The sink takes a source stream and calls it with a cb and an `abort` param.
-The cb gets passed `end` and `data` params from the source stream.
-If the callback gets a truthy `end` param, it must not call source again.
-If `end` is falsy, the cb can call source again, which signals that
-the sink is ready for more data. It should call the source with a truthy
-`abort` if the sink can no longer consume data. It also must not call the
-source multiple times before getting a callback.
+* if it is passed a truthy `abort` param, it must call the callback with a truthy `end` param
+* It must not call the callback more than once (before it has been called again)
+
+The sink stream
+
+* If the callback gets a truthy `end` param, it must not call source again
+* It must not call the source multiple times before getting a callback
 
 Both sources and sinks should work whether they are called synchronously
-or not.
+or asynchronously.
+
 
 ## install
 
