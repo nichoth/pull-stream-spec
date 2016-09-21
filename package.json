@@ -24,7 +24,8 @@
     "pull-stream",
     "pull",
     "stream",
-    "spec"
+    "spec",
+    "test"
   ],
   "author": "nichoth",
   "license": "ISC",
